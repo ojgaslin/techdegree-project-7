@@ -6,7 +6,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: url("jason-leung-kIPG5OyGbWk-unsplash.jpg");
-  background-image: 200%;
 }
 
 code {
@@ -109,16 +108,19 @@ input {
   -ms-align-items: flex-start;
   align-items: flex-start;
   box-sizing: border-box;
-  padding: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 250px;
+  margin: 0 auto;
 }
 
 .photo-container ul li {
   width: 220px;
   height: 165px;
   overflow: hidden;
-  margin-bottom: 15px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
 
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-
+//create default search options with href route attribute 
 const Nav = props => {
     return(
 <nav className="main-nav">

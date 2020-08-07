@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
-import logo from './logo.svg';
-import ClipLoader from "react-spinners/ClipLoader";
-
 import {
   BrowserRouter,
   Route,
   Switch
 } from 'react-router-dom';
-//import Photo from './Photo.js';
+//import child components to app.js
 import PhotoContainer from './Photo-Container.js';
 import SearchBar from './searchBar.js';
 import Nav from './Nav.js'
@@ -18,6 +15,7 @@ export default class App extends Component {
 
   constructor() {
     super();
+    //arrays created to hold photos from api search
     this.state = {
       photos: [],
       alpacas: [],
@@ -27,23 +25,23 @@ export default class App extends Component {
       loading: false,
       query: ""
     };
+
   }
 
   componentDidMount() {
-    
-    this.loadDefaults();
     //this.performSearch();
- 
+    this.loadDefaults();  
   }
-
+  //holds default search item functions for componentDidMount to run
   loadDefaults() {
     this.loadAlpacas();
     this.loadOes();
     this.loadOwls();
   }
-
+  //load Alpaca default search button and return array of Alpacas
   loadAlpacas() {
     this.setState({loading: true, alpacas: []});
+    //run api search
     axios.get("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=15e0847f1f1c8076d7b8c4e0cff4f2f3&tags='+peruvian+alpaca+'&format=json&nojsoncallback=1",
       {
         headers: {
@@ -54,19 +52,18 @@ export default class App extends Component {
       })
       .then(response => {
         this.setState({ 
+          //return array of 25 photos and then set loading to false
           alpacas: response.data.photos.photo.slice(0, 25),
           loading: false });
-        console.log("ALPACAS")
-        console.log(this.state.alpacas)
       })
       .catch(error => {
-        console.log('Error fetching and parsing data', error);
+        //if error caught, set loading state to false
         this.setState({loading: false});
       });
   }
 
 
-
+  //load Oes default search button and return array of oldenglishsheepdogs
   loadOes() {
     this.setState({loading: true, oldEnglishSheepdogs: [] });
     axios.get("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=15e0847f1f1c8076d7b8c4e0cff4f2f3&tags='+old+english+sheepdog+'&format=json&nojsoncallback=1",
@@ -81,15 +78,13 @@ export default class App extends Component {
         this.setState({ 
           oldEnglishSheepdogs: response.data.photos.photo.slice(0, 25), 
           loading: false });
-        console.log("OES")
-        console.log(this.state.oldEnglishSheepdogs)
       })
       .catch(error => {
-        console.log('Error fetching and parsing data', error);
         this.setState({loading: false});
       });
   }
 
+  //load owls default search function and return array of owls
   loadOwls() {
     this.setState({loading: true, owls: []});
     axios.get("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=15e0847f1f1c8076d7b8c4e0cff4f2f3&tags='+true+owl+'&format=json&nojsoncallback=1",
@@ -104,61 +99,67 @@ export default class App extends Component {
         this.setState({ 
           owls: response.data.photos.photo.slice(0, 25),
           loading: false});
-        console.log("OWLS")
-        console.log(this.state.owls)
       })
       .catch(error => {
-        console.log('Error fetching and parsing data', error);
         this.setState({loading: false});
       });
   }
-
+  //search api function for input in the search bar, query search term passed in
   performSearch= (query) => {
+    //set loading state to true
     this.setState({loading: true});
+    //perform api search that includes query search term/input to search bar
     axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=15e0847f1f1c8076d7b8c4e0cff4f2f3&tags=` + query + `&format=json&nojsoncallback=1`)
       .then(response => {
-        console.log("QUERY" + query);
         this.setState({
+          //set array limit of 25
           queryResults: response.data.photos.photo.slice(0, 25),
-          loading: false,//
+          //change loading to false
+          loading: false,
+          //set query to input
           query: query
         });
 
       })
       .catch(error => {
-        console.log('Error fetching and parsing data', error);
-        this.setState({loading: false});//
+        //if error, set loading to false
+        this.setState({loading: false});
       });
   }
+  //if queryResults array is not empty, show header displaying title of input as the results
   showResultsHeader(){
     if(this.state.queryResults.length){
     return <h2>Results: {this.state.query}</h2>
     }
   }
-
-  render() {
-    const { data, loading } = this.state;
+  //function to be used to create 404 error route message
+  NoMatchPage = () => {
     return (
+      <h3>Uh Oh! 404 Error - Route Not found</h3>
+    );
+  };
+  //render page elements
+  render(props) {
+    return (
+      //return search bar which on search calls performSearch function
       <BrowserRouter>
         <div className="App">
+
           <SearchBar onSearch={this.performSearch} />
           <Nav></Nav>
-          {
-            this.state.queryResults.length > 0 &&
-              <h2>Results for {this.state.query}</h2>
-          }
+          {/* create the routes, if state is not loading, then make state appropriate Array, else display loading on page */}
+
           <Switch>
-            <Route path="/alpacas" render={() => (!this.state.loading) ? <PhotoContainer id="photos" data={this.state.alpacas} /> : <p>Loading...</p>} />
-            <Route path="/oldEnglishSheepdogs" render={() => (!this.state.loading) ? <PhotoContainer data={this.state.oldEnglishSheepdogs} /> : <p>Loading...</p>} />
-            <Route path="/owls" render={() => (!this.state.loading) ? <PhotoContainer data={this.state.owls} /> : <p>Loading...</p>}/>
-            <Route path="/search" render={() => (!this.state.loading) ? <PhotoContainer data={this.state.queryResults} /> : <p>Loading...</p>}/>
+            <Route path="/alpacas" render={() => (!this.state.loading) ? <PhotoContainer id="photos" data={this.state.alpacas} title="alpacas" /> : <p>Loading...</p>} />
+            <Route path="/oldEnglishSheepdogs" render={() => (!this.state.loading) ? <PhotoContainer data={this.state.oldEnglishSheepdogs} title="old english sheepdogs" /> : <p>Loading...</p>} />
+            <Route path="/owls" render={() => (!this.state.loading) ? <PhotoContainer data={this.state.owls} title="owls" /> : <p>Loading...</p>}/>
+            <Route path="/search/:id?" render={() => (!this.state.loading) ? <PhotoContainer data={this.state.queryResults} title={this.state.query} /> : <p>Loading...</p>}/>
+           {/* error 404 route */}
+            <Route component={this.NoMatchPage} />
           </Switch>
 
-          {/* Nav */}
-          {/* search bar */}
-          {/* photocontainer */}
         </div>
-      </BrowserRouter>
+        </BrowserRouter>
     );
 
   }

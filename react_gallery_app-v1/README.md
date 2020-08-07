@@ -66,3 +66,21 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+Extra Credit:
+-Loading indicator displays each time fetching new data
+-No matches found message displays if there are no matches for the search input
+-404 error route with error message if URL doesn't match existing route
+
+CSS changes to index.css:
+1) line 8: set background image to jason-leung-kIPG5OyGbWk-unsplash.jpg
+2) line 19: body text color set to yellow
+3) line 23: added black shadow to search bar
+4) line 27: added black text shadow to h3
+5) line 31: svg/search button changed to black
+6) line 47: box-shadow added to a
+7) line 52: color yellow set for p
+8) lilne 53: text shadow added to p
+9) line 101: hover over button turns yellow
+10) line 111, 112, 113: changed padding of photo container
+11) line 121, 122, 123: changed margins for each photo in photo container

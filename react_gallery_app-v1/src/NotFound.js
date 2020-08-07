@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom';
 
+//function returns not found message if the user input results in an empty array
 const NotFound = props => {
   return(
 <li className="not-found">

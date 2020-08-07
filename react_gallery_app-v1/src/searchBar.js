@@ -1,30 +1,46 @@
 import React, { Component } from 'react';
+import { matchPath } from 'react-router'
 import { withRouter } from 'react-router-dom'
 
 class SearchBar extends Component {
-
+    //set state to blank
     state = {
         searchText: ''
     }
-
-    onSearch = e => {
-        
-        e.preventDefault();
-        
-        this.props.history.push('/search');
-        this.props.onSearch(this.query.value);
-        }
     
-
-    handleSubmit = e => {
-        e.preventDefault();
-        this.props.onSearch(this.query.value);
-        //e.currentTarget.reset();
+    componentDidMount(){
+        //if there is a pathname url matching path property, assign id in pathname url
+        let id;
+        if(matchPath(this.props.history.location.pathname, { 
+            path:'/search/:id?',
+            exact: true,
+            strict: false
+          })){
+        id = matchPath(this.props.history.location.pathname, { 
+            path:'/search/:id?',
+            exact: true,
+            strict: false
+          }).params.id;
+        }
+        //if id is set in route, set id equal to input in search bar, and call onSearch function with this input to search this term
+        if(id){
+            this.query.value = id;
+            this.props.onSearch(this.query.value);
+        }
+        
     }
-
+       
+    handleSubmit = e => {
+        this.setState({ searchText: e.target.value });
+        //takes input from search bar and adds this to the end of url
+        this.props.history.push('/search/' + this.query.value);
+            e.preventDefault();
+            this.props.onSearch(this.query.value);
+          }
+    //html to render search bar
     render() {
         return (
-            <form className="search-form" onSubmit={this.onSearch} >
+            <form className="search-form" onSubmit={this.handleSubmit} >
                 <input type="search"
                     name="search"
                     placeholder="Search" required
@@ -41,4 +57,5 @@ class SearchBar extends Component {
         );
     }
 }
-export default withRouter(SearchBar)
+//connect component searchBar to the router
+export default withRouter(SearchBar);
