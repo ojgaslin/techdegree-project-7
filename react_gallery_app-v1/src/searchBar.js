@@ -11,23 +11,25 @@ class SearchBar extends Component {
     componentDidMount(){
         //if there is a pathname url matching path property, assign id in pathname url
         let id;
+        console.log(this.props.history.location.pathname);
         if(matchPath(this.props.history.location.pathname, { 
             path:'/search/:id?',
             exact: true,
             strict: false
           })){
+
         id = matchPath(this.props.history.location.pathname, { 
             path:'/search/:id?',
             exact: true,
             strict: false
           }).params.id;
         }
-        //if id is set in route, set id equal to input in search bar, and call onSearch function with this input to search this term
+ 
+        //if id is set in route, set id equal to input in search bar, and call onSearch function to search this term
         if(id){
             this.query.value = id;
             this.props.onSearch(this.query.value);
-        }
-        
+        }    
     }
        
     handleSubmit = e => {
