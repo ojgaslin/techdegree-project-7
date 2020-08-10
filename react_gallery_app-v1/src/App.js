@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import apiKey from './config';
 import axios from 'axios';
 import {
   BrowserRouter,
@@ -42,7 +43,7 @@ export default class App extends Component {
   loadAlpacas() {
     this.setState({loading: true, alpacas: []});
     //run api search
-    axios.get("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=15e0847f1f1c8076d7b8c4e0cff4f2f3&tags='+peruvian+alpaca+'&format=json&nojsoncallback=1",
+    axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=` + apiKey + `&tags='+peruvian+alpaca+'&format=json&nojsoncallback=1`,
       {
         headers: {
           'Accept': 'application/json',
@@ -66,7 +67,7 @@ export default class App extends Component {
   //load Oes default search button and return array of oldenglishsheepdogs
   loadOes() {
     this.setState({loading: true, oldEnglishSheepdogs: [] });
-    axios.get("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=15e0847f1f1c8076d7b8c4e0cff4f2f3&tags='+old+english+sheepdog+'&format=json&nojsoncallback=1",
+    axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=` + apiKey + `&tags='+old+english+sheepdog+'&format=json&nojsoncallback=1`,
       {
         headers: {
           'Accept': 'application/json',
@@ -87,7 +88,7 @@ export default class App extends Component {
   //load owls default search function and return array of owls
   loadOwls() {
     this.setState({loading: true, owls: []});
-    axios.get("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=15e0847f1f1c8076d7b8c4e0cff4f2f3&tags='+true+owl+'&format=json&nojsoncallback=1",
+    axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=` + apiKey + `&tags='+true+owl+'&format=json&nojsoncallback=1`,
       {
         headers: {
           'Accept': 'application/json',
@@ -109,7 +110,7 @@ export default class App extends Component {
     //set loading state to true
     this.setState({loading: true});
     //perform api search that includes query search term/input to search bar
-    axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=15e0847f1f1c8076d7b8c4e0cff4f2f3&tags=` + query + `&format=json&nojsoncallback=1`)
+    axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=` + apiKey + `&tags=` + query + `&format=json&nojsoncallback=1`)
       .then(response => {
         this.setState({
           //set array limit of 25
