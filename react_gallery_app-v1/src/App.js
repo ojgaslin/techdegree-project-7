@@ -5,7 +5,8 @@ import axios from 'axios';
 import {
   BrowserRouter,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom';
 //import child components to app.js
 import PhotoContainer from './Photo-Container.js';
@@ -151,6 +152,8 @@ export default class App extends Component {
           {/* create the routes, if state is not loading, then make state appropriate Array, else display loading on page */}
 
           <Switch>
+            <Route exact path="/"><Redirect to="/search" /></Route>
+            <Route path="/home" render={() => <h1>Search Something!</h1>}/>
             <Route path="/alpacas" render={() => (!this.state.loading) ? <PhotoContainer id="photos" data={this.state.alpacas} title="alpacas" /> : <p>Loading...</p>} />
             <Route path="/oldEnglishSheepdogs" render={() => (!this.state.loading) ? <PhotoContainer data={this.state.oldEnglishSheepdogs} title="old english sheepdogs" /> : <p>Loading...</p>} />
             <Route path="/owls" render={() => (!this.state.loading) ? <PhotoContainer data={this.state.owls} title="owls" /> : <p>Loading...</p>}/>
