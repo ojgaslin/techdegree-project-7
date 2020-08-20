@@ -12,6 +12,7 @@ import {
 import PhotoContainer from './Photo-Container.js';
 import SearchBar from './searchBar.js';
 import Nav from './Nav.js'
+import NotFound from './NotFound';
 
 export default class App extends Component {
 

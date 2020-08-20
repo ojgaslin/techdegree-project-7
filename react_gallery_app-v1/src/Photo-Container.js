@@ -13,7 +13,7 @@ const PhotoContainer = props => {
         photos = results.map(photo => <Photo key={photo.id} url={'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'}/> );
     } else {
         //if there are no results, show NotFound component
-        if(props.location.pathname === '/search'){
+        if(props.location.pathname.includes('/search')){
             photos = <NotFound />
         }
 
